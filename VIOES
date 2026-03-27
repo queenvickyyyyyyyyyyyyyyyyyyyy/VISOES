@@ -1,0 +1,63 @@
+CREATE TABLE Ambulatorios (
+	nroa INTEGER PRIMARY KEY,
+	andar NUMERIC(2),
+	capacidade NUMERIC(10)
+);
+
+CREATE TABLE Medicos (
+	codm INTEGER PRIMARY KEY,
+	CPF NUMERIC(11) UNIQUE,
+	nome VARCHAR(50) NOT NULL,
+	idade NUMERIC(3),
+	cidade VARCHAR(50),
+	especialidade VARCHAR(50),
+	nroa INTEGER,
+	FOREIGN KEY (nroa) REFERENCES Ambulatorios (nroa)
+);
+
+CREATE TABLE Pacientes (
+	codp INTEGER PRIMARY KEY,
+	CPF NUMERIC(11) UNIQUE,
+	nome VARCHAR(50) NOT NULL,
+	idade NUMERIC(3),
+	cidade VARCHAR(50),
+	doenca VARCHAR(50)
+);
+
+CREATE TABLE Consultas (
+	data DATE,
+	hora TIME,
+	codm INTEGER,
+	codp INTEGER,
+	FOREIGN KEY (codm) REFERENCES Medicos (codm),
+	FOREIGN KEY (codp) REFERENCES Pacientes (codp)
+);
+
+INSERT INTO Ambulatorios (nroa, andar, capacidade) VALUES
+(1, 1, 10), /* 1° andar */
+(2, 1, 10), 
+
+(3, 2, 10), /* 2° andar */
+(4, 2, 10),
+
+(5, 3, 5), /* 3° andar */
+(6, 3, 5);
+
+INSERT INTO Medicos (codm, CPF, nome, idade, cidade, especialidade, nroa) VALUES
+(195, 94526345155, 'João da Silva', 52, 'Guarabira', 'Clinico geral', 1),
+(132, 10264789634, 'Marina da Costa', 32, 'Guarabira', 'Dermatologista', 2),
+(110, 65230145691, 'Yasmin Ribeiro', 46, 'Guarabira', 'Pediatra', 3),
+(145, 15975325865, 'Mario Almeida', 60, 'Guarabira', 'Fisioterapeuta', 4),
+(103, 20659831452, 'Vanessa Lima', 36, 'Guarabira', 'Cardiologista', 5),
+(179, 32698702511, 'Carlos Martins', 42, 'Guarabira', 'Cirurgião', 6);
+
+INSERT INTO Pacientes (codp, CPF, nome, idade, cidade, doenca) VALUES
+(239, 14785236989, 'Carol da Silva', 25, 'Guarabira', 'Arritmia'),
+(240, 85264120399, 'Antônio Pereira', 56, 'Guarabira', 'Fratura'),
+(241, 45942547964, 'Marta Campos', 62, 'Guarabira', 'gripe');
+
+INSERT INTO Consultas(codm, codp, data, hora) VALUES
+(103, 239, '2026-03-25', '14:15:00'),
+(179, 240, '2026-04-01', '06:00:00'),
+(195, 241, '2026-03-27', '10:30:00');
+
