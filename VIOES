@@ -61,3 +61,37 @@ INSERT INTO Consultas(codm, codp, data, hora) VALUES
 (179, 240, '2026-04-01', '06:00:00'),
 (195, 241, '2026-03-27', '10:30:00');
 
+CREATE VIEW medico_paciente_hora AS SELECT --1
+m.nome AS nome_medico,
+p.nome AS nome_paciente,
+c.hora
+FROM CONSULTAS c
+JOIN MEDICOS m ON c.codm = m.codm
+JOIN PACIENTES p ON c.codp = p.codp;
+
+CREATE VIEW vw_consulta_ambulatorio AS --2
+SELECT 
+    c.hora,
+    a.andar,
+    m.codm
+FROM Consultas c
+JOIN Medicos m ON c.codm = m.codm
+JOIN Ambulatorios a ON m.coda = a.coda;
+
+CREATE VIEW vw_todos_medicos_consultas AS --3
+SELECT 
+    m.nome AS nome_medico,
+    c.data_conulta,
+    c.hora
+FROM Medicos m
+LEFT JOIN Consultas c ON m.codm = c.codm;
+
+CREATE VIEW vw_paciente_medico_ambulatorio AS --4
+SELECT 
+    p.idade,
+    p.doenca,
+    m.nome AS nome_medico,
+    m.coda AS codigo_ambulatorio
+FROM Consultas c
+JOIN Pacientes p ON c.codp = p.codp
+JOIN Medicos m ON c.codm = m.codm;
